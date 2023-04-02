@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.475">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2021-10-14">
+<meta name="description" content="Exploring Source code of fastai">
+
+<title>mldurga - Fastai fit_one_cycle &amp; fine_tune and Super-Convergence (Leslie Smith)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta name="twitter:title" content="mldurga - Fastai fit_one_cycle &amp; fine_tune and Super-Convergence (Leslie Smith)">
+<meta name="twitter:description" content="Exploring Source code of fastai">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/19243618/137338003-dfdbf632-4ea7-444b-af40-e68319d076d8.png">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">mldurga</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/mldurga"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/durgaamma2005"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Fastai <code>fit_one_cycle</code> &amp; <code>fine_tune</code> and Super-Convergence (Leslie Smith)</h1>
+                  <div>
+        <div class="description">
+          Exploring Source code of fastai
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">paper_reading</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 14, 2021</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#topology-of-loss-function" id="toc-topology-of-loss-function" class="nav-link active" data-scroll-target="#topology-of-loss-function">Topology of Loss function</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#cyclical-learning-rate-clr" id="toc-cyclical-learning-rate-clr" class="nav-link" data-scroll-target="#cyclical-learning-rate-clr">Cyclical Learning Rate (CLR)</a></li>
+  <li><a href="#super-convergence" id="toc-super-convergence" class="nav-link" data-scroll-target="#super-convergence">Super-Convergence</a>
+  <ul class="collapse">
+  <li><a href="#momentum" id="toc-momentum" class="nav-link" data-scroll-target="#momentum">Momentum</a></li>
+  </ul></li>
+  <li><a href="#fit_one_cycle-and-fine_tune-of-fastai" id="toc-fit_one_cycle-and-fine_tune-of-fastai" class="nav-link" data-scroll-target="#fit_one_cycle-and-fine_tune-of-fastai"><code>fit_one_cycle</code> and <code>fine_tune</code> of fastai</a>
+  <ul class="collapse">
+  <li><a href="#exploring-source-code-in-fastai-library-can-give-good-insights" id="toc-exploring-source-code-in-fastai-library-can-give-good-insights" class="nav-link" data-scroll-target="#exploring-source-code-in-fastai-library-can-give-good-insights">Exploring source code in fastai library can give good insights</a></li>
+  </ul></li>
+  <li><a href="#credits" id="toc-credits" class="nav-link" data-scroll-target="#credits">Credits</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p><a href="https://colab.research.google.com/github/mldurga/easydl/blob/master/_notebooks/2021-10-14-super_convergence.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
+<section id="topology-of-loss-function" class="level2">
+<h2 class="anchored" data-anchor-id="topology-of-loss-function">Topology of Loss function</h2>
+<p>Nothing is more explainable than this</p>
+<blockquote class="twitter-tweet blockquote">
+<p lang="en" dir="ltr">
+<a href="[tweet_url]">pic.twitter.com/xBhagsGlXM</a>
+</p>
+<a href="https://twitter.com/zozuar/status/1443012484189888515?s=20"></a>
+</blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Until publication of the papers <a href="https://arxiv.org/pdf/1506.01186.pdf">1</a>,<a href="https://arxiv.org/pdf/1803.09820.pdf">2</a>,<a href="https://arxiv.org/pdf/1708.07120.pdf">3</a> by Mr Leslie Smith, finding learning rate of neural networks training is largely a black art and often requires extensive practice and expertise to set good hyperparameters. Mr Smith’s contribution greatly helped reserach community on overall understanding of the topology of loss function. Unlike typical Machine Learning papers, Smith’s Papers are very much approachable and invaluable. I have tried to reproduce fastai source code of implementation of 1cycle policy inspired from Smith’s papers.</p>
+<p>##Learning rate (LR) and Weight updataion In neural networks training, loss function (simply distance between target value and predicted value) must be decreased with each iteration. SGD - stochastic gradient descent is the method to achieve the above stated goal. If you can observe the above twitter card, loss function topology will be more or less have same features. Identifying global minimum of that topology is the sole aim of any Machine learning practitioner. However, training gets trapped over local minima and model underperforms. This is where Smiths ideas catapulted training neural networks to the next level.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://user-images.githubusercontent.com/19243618/137344851-460b2d6d-30a4-4f31-b4fc-6382581dd87d.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">image</figcaption><p></p>
+</figure>
+</div>
+<p><code>w.new=w.old - gradient(w.old) * lr</code></p>
+<p>above image gives general idea of Lerning Rate value impact on convergence of loss function. weights will get updated for each iteration at the rate of choosen LR. Low LR can have effect of trapping at <a href="https://en.wikipedia.org/wiki/Saddle_point">saddle</a> points and local minima, High LR can immediately be diverged and loss value increases greatly. Until Smith’s papers, setting right LR has been a great challenge.</p>
+</section>
+<section id="cyclical-learning-rate-clr" class="level2">
+<h2 class="anchored" data-anchor-id="cyclical-learning-rate-clr">Cyclical Learning Rate (CLR)</h2>
+<p>Conventionally LR is a fixed value and tends to be decreased over a period of training until a good accuracy is obtained. Smith introduced novel technique of varying learning rate in cyclical fashion resulted in huge gains in accuracy in few iterations compared to the conventional practices.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://user-images.githubusercontent.com/19243618/137067445-bef503ca-dc77-447b-88e7-ba6126908b2d.jpg" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">cifar_LR</figcaption><p></p>
+</figure>
+</div>
+<p>the CLR approach has clearly outperformed other techniques of setting LR as hown in figure. CLR achieved same accuracy within 20k iterations compared to 80k iterations of other techniques.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://user-images.githubusercontent.com/19243618/137253367-2cf2c603-85ef-4c10-abfc-24555536025e.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">image</figcaption><p></p>
+</figure>
+</div>
+<p>LR has to be varied between two bounds called maximum bound and minimum bound. These can be found from LR range test, which is identifying minimum and maximum learning rate values where accuracy is actually increasing, by doing few iteratrions of training. Due to simplicity, triangular learning rate policy was adopted for most of the cases. following terminology helps in understanding setting of learning rate.</p>
+<ul>
+<li>epoch: one pass through of the entire dataset</li>
+<li>batch size: No of images in a mini batch</li>
+<li>iteration: training over a mini batch</li>
+</ul>
+<p>Lets take 50,000 images to be trained and with a 100 images per minibatch</p>
+<ul>
+<li>No of iterations per epoch =&gt; (50000/100) =500</li>
+<li>stepsize : Generally 2 times epoch, so every 1000 iterations we have one increaing learning rate and next 1000 iterations we have one decreasing learning rate, this becomes one cycle</li>
+</ul>
+<p>Smiths experiments shows that generally 3 cycles have trained the network within short iterations compared to conventional LR methods. However 1cycle <a href="https://arxiv.org/pdf/1708.07120.pdf">paper</a> in 2018 stated that one cycle is sufficient to train the network when very large learning rates are used.</p>
+</section>
+<section id="super-convergence" class="level2">
+<h2 class="anchored" data-anchor-id="super-convergence">Super-Convergence</h2>
+<p>Cyclic learning rates coupled with large values of learning rates leads to convergence much faster than standard training methods. The large learning rates allows training to jump over the local minimas and will find a way to global minima in much less time. Cyclical nature of the learning rates enables training to first slowly converge then moves at faster speeds to traverse the valley and again slows the pace to finally converge to final accuracy level.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://user-images.githubusercontent.com/19243618/137189466-0b3eca30-9ad9-4e5b-9cf6-6b1c4deb5be9.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">image</figcaption><p></p>
+</figure>
+</div>
+<p>Above images are from super-convergence paper. Figure (a) clearly shows the dominance of Super-Convergence approach denoted by CLR. With CLR range 0.1-3 (Learning rate bounds) accuracy obtained 92.4% within 10k iterations compared to 80k iterations of normal training methods on CIFAR-10 Dataset, ResNet-56 architecture.</p>
+<p>To reiterate author words “Always use one cycle that is smaller than the total number of iterations/epochs and allow the learning rate to decrease several orders of magnitude less than the initial learning rate for the remaining iterations”. This is called 1cycle policy or Super-Convergence. Since 1cycle policy have regularisation effect on overall training process, care must be taken to balance the remianing regularisation techniques like weight-decay, batch size, drop out etc.. depending on the dataset.</p>
+<p>The maximum learnng rate will be obtained from the LR range test, in which maximum learning rate at which accuracy stops increasing will be taken as max LR and minimum LR will be factor of 10 to 20 less than the max LR.</p>
+<section id="momentum" class="level3">
+<h3 class="anchored" data-anchor-id="momentum">Momentum</h3>
+<p>According to Leslie papers, Momentum is as important as learning rate for training the network. The value of momentum observed to be decreasing while learning rate value is increasing in a stepsize of 1cycle policy. Momentum is an attempt to maintain consistent direction of SGD (stochastic Gradient Direction). If we set momentum at 90%, it means we will take 90% of the previous direction and 10% of the new direction. Intuitiviely we can look at moomentum as a process of giving more weight to new gradients or directions to find flatter area. Leslie smith suggest to use momentum values between 0.85 and 0.95 for training purpose.</p>
+</section>
+</section>
+<section id="fit_one_cycle-and-fine_tune-of-fastai" class="level2">
+<h2 class="anchored" data-anchor-id="fit_one_cycle-and-fine_tune-of-fastai"><code>fit_one_cycle</code> and <code>fine_tune</code> of fastai</h2>
+<p>The above paper has been implemented in fastai with certain modifications. Source code of fastai related to these functions were presented here. Since this library is designed with lot of functionality, and all of them cant be reproduced here, interested can explore the same in <a href="https://github.com/fastai/fastai/tree/master/fastai">github</a> for entire source code.</p>
+<p>Lets explore bit by bit. First we will look at <code>fine_tune()</code> then drill down gradully</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fine_tune(<span class="va">self</span>:Learner, epochs, base_lr<span class="op">=</span><span class="fl">2e-3</span>, freeze_epochs<span class="op">=</span><span class="dv">1</span>, lr_mult<span class="op">=</span><span class="dv">100</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>              pct_start<span class="op">=</span><span class="fl">0.3</span>, div<span class="op">=</span><span class="fl">5.0</span>, <span class="op">**</span>kwargs):</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Fine tune with `Learner.freeze` for `freeze_epochs`, then with `Learner.unfreeze` for `epochs`, using discriminative LR."</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.freeze()</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.fit_one_cycle(freeze_epochs, <span class="bu">slice</span>(base_lr), pct_start<span class="op">=</span><span class="fl">0.99</span>, <span class="op">**</span>kwargs)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    base_lr <span class="op">/=</span> <span class="dv">2</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.unfreeze()</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.fit_one_cycle(epochs, <span class="bu">slice</span>(base_lr<span class="op">/</span>lr_mult, base_lr), pct_start<span class="op">=</span>pct_start, div<span class="op">=</span>div, <span class="op">**</span>kwargs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>fine_tune</code> initially freezes pretrained model weights and trains using <code>fit_one_cycle</code> with one epoch to enable random weights in head to adjust to new dataset. After unfreeze entire network will be trained with same <code>fit_one_cycle</code> method with choosen no of epochs.</p>
+<section id="exploring-source-code-in-fastai-library-can-give-good-insights" class="level3">
+<h3 class="anchored" data-anchor-id="exploring-source-code-in-fastai-library-can-give-good-insights">Exploring source code in fastai library can give good insights</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://user-images.githubusercontent.com/19243618/137338003-dfdbf632-4ea7-444b-af40-e68319d076d8.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">image</figcaption><p></p>
+</figure>
+</div>
+<p><code>pct_start</code> is percentage of overall iterations where LR is increaing. if <code>pct_start</code> is 0.25 that means LR is increasing up to 25 % of iterations and remaining 75 % iterations LR is decreasing. other plot is of momentum, its values varies inverse to the LR and range is between 0.95 to 0.85. However the choice of the momentum values will be depend on the dataset and architectures.</p>
+<p>Other Helper functions in source code</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://user-images.githubusercontent.com/19243618/137340342-934f87a6-e379-438f-a661-5fe39b6af111.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">image</figcaption><p></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="credits" class="level2">
+<h2 class="anchored" data-anchor-id="credits">Credits</h2>
+<ul>
+<li>Leslie Smith Papers <a href="https://arxiv.org/pdf/1506.01186.pdf">1</a>,<a href="https://arxiv.org/pdf/1803.09820.pdf">2</a>,<a href="https://arxiv.org/pdf/1708.07120.pdf">3</a></li>
+<li>Fastai library <a href="https://github.com/fastai/fastai/tree/master/fastai">github</a></li>
+<li>Slvain Gugger <a href="https://sgugger.github.io/the-1cycle-policy.html">post</a></li>
+<li><a href="https://stackoverflow.com/questions/56482528/what-is-momentum-in-machine-learning/56482888">stack over flow</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

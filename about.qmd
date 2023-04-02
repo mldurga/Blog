@@ -1,0 +1,28 @@
+---
+title: "About"
+image: mldurga.jpg
+about:
+  template: jolla
+  links:
+    - icon: twitter
+      text: Twitter
+      href: https://twitter.com/durgaamma2005
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/durga-kumar-d-0b085922/
+    - icon: github
+      text: Github
+      href: https://github.com/mldurga
+
+---
+
+About this blog
+
+
+
+
+## [Twitter](https://twitter.com/durgaamma2005) | [GitHub](https://github.com/mldurga) | [LinkedIn](https://www.linkedin.com/in/durga-kumar-d-0b085922/)
+
+I am working as Solution Architect in AVEVA (Schneider Electric). I am passionate about data, and deeplearning. I am introduced to deeplearning through fast.ai and have been poisoned by it completely and have started blogging here from then onwards. I hope, one day I will write a great technical paper and publish. 
+
+I am also self-taught - thanks to the wonderful [fast.ai](https://course.fast.ai/) course.

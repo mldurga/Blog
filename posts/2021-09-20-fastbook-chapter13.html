@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.475">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2021-09-20">
+<meta name="description" content="Visualising CNN">
+
+<title>mldurga - Convolutional Neural Networks. Fastbook chapter 13</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">mldurga</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/mldurga"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/durgaamma2005"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Convolutional Neural Networks. Fastbook chapter 13</h1>
+                  <div>
+        <div class="description">
+          Visualising CNN
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">fastbook</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">September 20, 2021</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#inroduction" id="toc-inroduction" class="nav-link active" data-scroll-target="#inroduction">Inroduction</a></li>
+  <li><a href="#terminology" id="toc-terminology" class="nav-link" data-scroll-target="#terminology">Terminology</a>
+  <ul class="collapse">
+  <li><a href="#neural-networks" id="toc-neural-networks" class="nav-link" data-scroll-target="#neural-networks">Neural Networks:</a></li>
+  <li><a href="#convolutions-layers-filters-kernels-channels-and-feature-maps" id="toc-convolutions-layers-filters-kernels-channels-and-feature-maps" class="nav-link" data-scroll-target="#convolutions-layers-filters-kernels-channels-and-feature-maps">Convolutions, Layers, Filters, Kernels, channels and feature maps</a></li>
+  <li><a href="#x1-convolutions-or-network-in-network" id="toc-x1-convolutions-or-network-in-network" class="nav-link" data-scroll-target="#x1-convolutions-or-network-in-network">1X1 Convolutions or Network in Network</a></li>
+  </ul></li>
+  <li><a href="#applying-cnn-on-vernacular-language-telugu" id="toc-applying-cnn-on-vernacular-language-telugu" class="nav-link" data-scroll-target="#applying-cnn-on-vernacular-language-telugu">Applying CNN on vernacular language ‘Telugu’</a>
+  <ul class="collapse">
+  <li><a href="#working-with-mnist-dataset-using-fastai" id="toc-working-with-mnist-dataset-using-fastai" class="nav-link" data-scroll-target="#working-with-mnist-dataset-using-fastai">Working with MNIST dataset using fastai</a></li>
+  <li><a href="#now-lets-play-with-telugu-vowels-dataset" id="toc-now-lets-play-with-telugu-vowels-dataset" class="nav-link" data-scroll-target="#now-lets-play-with-telugu-vowels-dataset">Now lets play with telugu vowels dataset</a></li>
+  </ul></li>
+  <li><a href="#credits" id="toc-credits" class="nav-link" data-scroll-target="#credits">Credits</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p><a href="https://colab.research.google.com/github/mldurga/easydl/blob/master/_notebooks/2021-09-20-Fastbook-chapter13.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="inroduction" class="level2">
+<h2 class="anchored" data-anchor-id="inroduction">Inroduction</h2>
+<p>CNN - Convolutional Neural Networks, is most famous technique used in computer vision applications off-late. Due to rapid innovation and research in this field, these techniques undergo huge transformations in short period of time. Here is my effort to deliberate upon certain terminology and concepts so that it would not be too scary for beginners like me. This topic is a very basic introduction to the concepts and will experiment with CNN and train a classifier of handwritten vernacular vowels of my mother-tongue Telugu.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from IPython.display import HTML</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># HTML('&lt;img src="https://user-images.githubusercontent.com/19243618/135569856-34ff12b8-bcbf-4d16-b500-37fe10f2252e.png" width="400"/&gt;')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Neural Networks: The typical CNN at high level can be seen as follows</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://user-images.githubusercontent.com/19243618/135569856-34ff12b8-bcbf-4d16-b500-37fe10f2252e.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">image</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="terminology" class="level2">
+<h2 class="anchored" data-anchor-id="terminology">Terminology</h2>
+<section id="neural-networks" class="level3">
+<h3 class="anchored" data-anchor-id="neural-networks">Neural Networks:</h3>
+<p>Neural networks operates similar to human brain function hence the name. In the context of computer vision, Neural Networks are fed with image type data and output will be any of the deep learning applications like image recognition, object detection or image classification etc. As shown in image, multiple layers of network will get trained to do specified task (ex:image recognition) by applying algorithms and improve accuracy of given task by reducing error.</p>
+<p>Here I am trying to elobarate things through images to help in visualising actual process.</p>
+<section id="general-neural-network-structure" class="level4">
+<h4 class="anchored" data-anchor-id="general-neural-network-structure">General neural network structure</h4>
+</section>
+<section id="typical-convolutional-neural-network-internals" class="level4">
+<h4 class="anchored" data-anchor-id="typical-convolutional-neural-network-internals">Typical Convolutional Neural Network internals</h4>
+<p><img src="https://user-images.githubusercontent.com/19243618/133940852-c044e6ec-34b4-4226-ba51-d31f383a64f1.png" class="img-fluid"></p>
+<p>Above two visualisations may help in visualising the process of transformation of image data in pixels to useful output</p>
+<p>Following are the general terminology used day in and day out to get to know CNN better. Material from the different blogs were collected inaddition to Fastbook for better clarity and visualisation.</p>
+</section>
+</section>
+<section id="convolutions-layers-filters-kernels-channels-and-feature-maps" class="level3">
+<h3 class="anchored" data-anchor-id="convolutions-layers-filters-kernels-channels-and-feature-maps">Convolutions, Layers, Filters, Kernels, channels and feature maps</h3>
+<section id="convolutions" class="level4">
+<h4 class="anchored" data-anchor-id="convolutions">Convolutions</h4>
+<p>Convolutions in deeplearning is just multplication and addition of elements in the matices. Following animation will give intuition on single channel convolution on 5X5 matrix with kernel size 3X3 matrix. The purpose of doing convolutions is to extract features from input images by applying various filters. Features may be horizontal edges, vertical edges, circles or diagnoal edges in image. Weights in the filters are automatically learned during training process in CNN.</p>
+<p><img src="https://user-images.githubusercontent.com/19243618/134466160-1779f10d-1e47-4007-8c03-8bf3fff86430.gif" class="img-fluid"></p>
+</section>
+<section id="layers-and-filters-level" class="level4">
+<h4 class="anchored" data-anchor-id="layers-and-filters-level">Layers and Filters level</h4>
+<p>Neural networks comprises number of layers and that number depends on the architecture we choose and the experimentation of the practitioner. Neurons in the first layer are just numbers representing RGB (Red, green, blue) values of color image in case of CNN, and in later layers numbers represents more complex features. Entire CNN is just magic with these numbers - doing multiplicaions and additions. Neurons in the final layer are numbers indicating decision of the network. If network is used to classify between modi with beard and without beard, final layer two neurons can have values either 0 or 1, indicating one is false other is true. Simply, this is all what is happening under the hood.</p>
+</section>
+<section id="channels-and-kernels-level" class="level4">
+<h4 class="anchored" data-anchor-id="channels-and-kernels-level">Channels and kernels level</h4>
+<p>Any color image feeding into CNN have 3 input channels namely Red, Green, Blue as all the pixel values are RGB values. These are also called as features or feature maps. By applying convolution both no of channels and spatial dimention of incoming feature maps can be transformed. Example: A color modi image has 3 feature maps or channels as shown later.</p>
+<p>Kernel is a little matrix which will get multiplied with RGB values in first layer and summed to give an output numbers in output channels. Dont get disheartened by seing lot of numbers, below I have tried to elobarate the concept with visualisations.</p>
+<p><img src="https://user-images.githubusercontent.com/19243618/135570065-9a3954b9-89fc-4e2c-bc44-4d411f6677e2.gif" class="img-fluid" alt="cnn_calc"> <!-- ![](https://user-images.githubusercontent.com/19243618/134295167-babedf18-e307-4613-91ad-6a677f0bb4fd.png) --> <!-- <img src="https://user-images.githubusercontent.com/19243618/134295167-babedf18-e307-4613-91ad-6a677f0bb4fd.png" width="500"/> --></p>
+<p>Visualising kernel movements in 3D:</p>
+<p><img src="https://user-images.githubusercontent.com/19243618/134296732-a0054153-81d4-4022-be3b-573a104c5f33.gif" class="img-fluid"></p>
+<p>Visualising kernel movements across three channels in 3D:</p>
+<p><img src="https://user-images.githubusercontent.com/19243618/134463099-baf25f88-512e-473b-a9af-af7a941f1b72.gif" class="img-fluid"></p>
+</section>
+<section id="strides-and-padding" class="level4">
+<h4 class="anchored" data-anchor-id="strides-and-padding">Strides and Padding</h4>
+<p>Above animations can give intuition about strides and padding. The kernel size (little matrix), stride and padding will determine the output size after convolution. stride is rate at which kernel moves across the image. It can be 1 pixel or 2 pixels. padding allows us to apply kernel in the image corners. zero padding means adding zero valued pixels on each side to accomadate the kernel movement completely on all sides. Please read more <a href="https://github.com/vdumoulin/conv_arithmetic">here</a> for convolution arithmetic.</p>
+<p>To elobarate the above concepts take an example color image of modi</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>img<span class="op">=</span><span class="st">'https://user-images.githubusercontent.com/19243618/134114426-d093484d-ae13-4025-8c43-c9dcbffa4d84.png'</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>urllib.request.urlretrieve(img,<span class="st">'modi'</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>im<span class="op">=</span>Image.<span class="bu">open</span>(<span class="st">'modi'</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>show_image(im)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2021-09-20-Fastbook-chapter13_files/figure-html/cell-5-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>This image has three channels namely red, green, blue and will be stacked and fed as 3D block to CNN. These channels can be seen from the images below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> image2tensor(Image.<span class="bu">open</span>(<span class="st">'modi'</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>im.shape</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>_,axs <span class="op">=</span> subplots(<span class="dv">1</span>,<span class="dv">3</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> modi,ax,color <span class="kw">in</span> <span class="bu">zip</span>(im,axs,(<span class="st">'Reds'</span>,<span class="st">'Greens'</span>,<span class="st">'Blues'</span>)):</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    show_image(<span class="dv">255</span><span class="op">-</span>modi, ax<span class="op">=</span>ax, cmap<span class="op">=</span>color)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="2021-09-20-Fastbook-chapter13_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>above three channels of the image can be stacked as follows</p>
+<p><img src="https://user-images.githubusercontent.com/19243618/135568268-d313879f-18ca-4b0c-a98f-82db8c318c66.png" class="img-fluid"> <!-- <img src="https://user-images.githubusercontent.com/19243618/133918732-a317f3b2-7abe-4a20-a7a7-9c6e0661ae7c.png" width ="400" height = "300"> --></p>
+<p>When a kernel is applied on to these channels new feature or output channel will be created. Under the hood, the numbers from three incoming channels will be multiplied by corresponding weight values in kernel and summed to give final number that will be part of the output channel. This can be visualised as follows. <img src="https://user-images.githubusercontent.com/19243618/135568386-b1656937-f1a0-43f9-baf3-29da3b1ba3f7.png" class="img-fluid"> <!-- <img src="https://user-images.githubusercontent.com/19243618/134285615-afae8788-cd18-49a0-9276-976d57cc8bac.png" width="600"> --></p>
+<p>This is what is happening at the kernel level. At whole image level, following 3D image gives better intuition.</p>
+<p><img src="https://user-images.githubusercontent.com/19243618/135568440-9d2fcd92-2538-45db-a4c6-2da0b71327f4.png" class="img-fluid"> <!-- <img src="https://user-images.githubusercontent.com/19243618/134285893-5cff357c-f4bc-4627-ba1c-fb589e14bf1e.png" width ="600"> --></p>
+<p>Though it looks as 3D convolution, actually it is 2D convolution. First block (blue) here can be 3 channels of modi images, or any layer with certain number of incoming channels (64, 128, 256 etc…). By matching kernel numbers stacked together in the filter (orange block), with incoming channels, its effectively 2D convolution. Every kernel has weights (again numbers) and get multiplied with channels and summedup to give one output channel per filter, that is what final block (green) came out here. For a real world example consider the following image from CS231n website.</p>
+<p><img src="https://user-images.githubusercontent.com/19243618/135568506-9ed506b5-d976-4918-839d-ae07d194093b.png" class="img-fluid"> <!-- <img src="https://user-images.githubusercontent.com/19243618/134290945-61f2eb72-29ec-4b5a-9dc7-8017d0ac56e9.png" width=200> --></p>
+<p>so the car image got CNN with 3 incoming channels(blue) and 10 filters (orange) in first layer to give 10 feature maps or channels (green) as output. Now to visualise number of filters and number of output channels from given input channels please look at following.</p>
+<p><img src="https://user-images.githubusercontent.com/19243618/135568614-a7f7139f-51ad-457f-9fc2-fb537dfbd5b3.png" class="img-fluid"> <!-- <img src="https://user-images.githubusercontent.com/19243618/134292259-50dbcf43-c765-4985-8721-e24d08decd24.png" width=700 > --></p>
+<p>Imagine there are 10 filters (orange blocks) getting multiplied and added with input channels (blue block) will gives rise to 10 output channels. This new block will become input to the next layer with 10 incoming channels. So number of output channels depends on number of filters. This is how the features will get transformed and forwarded to next layers until it reaches specified task. Follwoing image will give intuition about feature tranformations taking place in CNN in various layers.</p>
+<p><img src="https://user-images.githubusercontent.com/19243618/135568662-f514f7d1-2756-4e3d-8b8a-f34dfc3200a8.png" class="img-fluid"> <!-- <img src="https://user-images.githubusercontent.com/19243618/134293030-844ed44a-a188-4c01-84f0-0b4105b5fe14.png">  --></p>
+</section>
+</section>
+<section id="x1-convolutions-or-network-in-network" class="level3">
+<h3 class="anchored" data-anchor-id="x1-convolutions-or-network-in-network">1X1 Convolutions or Network in Network</h3>
+<p>Unlike convolutions mentioned above, here 1X1 kernel size is used to reduce the no of channels. For example, if a particular feature map has 192 features, it can be reduced to single feature map without effecting its feature map size. This is called as cross channel downsampling or dimensionality reduction. In a way, the new feature map stores infromation from previous multiple feature maps. Following visualisation can help in intuition.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://user-images.githubusercontent.com/19243618/135568698-062dd8ed-6c2c-4b4e-a466-fdaa3e1cfe48.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">image</figcaption><p></p>
+</figure>
+</div>
+<p>This operation is primarily done to reduce the computational load during convolutions. Example from <a href="https://medium.com/analytics-vidhya/talented-mr-1x1-comprehensive-look-at-1x1-convolution-in-deep-learning-f6b355825578">this</a> helps to understand better. Example: If we want to convolve 28X28X192 input feature maps with 5X5X32 filters, this will result in ~120 million operations.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://user-images.githubusercontent.com/19243618/135568772-e9ae1b64-9e00-425c-9a61-ea831760cde8.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">image</figcaption><p></p>
+</figure>
+</div>
+<p>The computation will be greatly reduced by introducing 1X1 conv layer before 5X5 conv layer as shown below.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://user-images.githubusercontent.com/19243618/135568846-f5472bf3-3143-4496-939b-4ed2ac648083.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">image</figcaption><p></p>
+</figure>
+</div>
+<p>for further visual understanding of Convolutional neural networks I highly encourage you to look at this <a href="https://vimeo.com/274236414">video</a>.</p>
+</section>
+</section>
+<section id="applying-cnn-on-vernacular-language-telugu" class="level2">
+<h2 class="anchored" data-anchor-id="applying-cnn-on-vernacular-language-telugu">Applying CNN on vernacular language ‘Telugu’</h2>
+<p>Here we use fastai code and ready built methods to work with telugu language charecters. However first demonstartion will be shown with MNIST dataset (handwritten numbers) and then proceed with telugu hand written charecters.</p>
+<section id="working-with-mnist-dataset-using-fastai" class="level3">
+<h3 class="anchored" data-anchor-id="working-with-mnist-dataset-using-fastai">Working with MNIST dataset using fastai</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>path<span class="op">=</span>untar_data(URLs.MNIST)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>dls<span class="op">=</span>ImageDataLoaders.from_folder(path,train<span class="op">=</span><span class="st">'training'</span>,valid<span class="op">=</span><span class="st">'testing'</span>,batch_tfms<span class="op">=</span>Normalize())</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> cnn_learner(dls, resnet18, pretrained<span class="op">=</span><span class="va">False</span>,loss_func<span class="op">=</span>F.cross_entropy, metrics<span class="op">=</span>accuracy, n_out<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+    <div>
+        <style>
+            /* Turns off some styling */
+            progress {
+                /* gets rid of default border in Firefox and Opera. */
+                border: none;
+                /* Needs to be in here for Safari polyfill so background images work as expected. */
+                background-size: auto;
+            }
+            .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+                background: #F44336;
+            }
+        </style>
+      <progress value="15687680" class="" max="15683414" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      100.03% [15687680/15683414 00:00&lt;00:00]
+    </div>
+    
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/usr/local/lib/python3.7/dist-packages/torch/nn/functional.py:718: UserWarning: Named tensors and all their associated APIs are an experimental feature and subject to change. Please do not use them for anything important until they are released as stable. (Triggered internally at  /pytorch/c10/core/TensorImpl.h:1156.)
+  return torch.max_pool2d(input, kernel_size, stride, padding, dilation, ceil_mode)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>accuracy</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.136468</td>
+      <td>0.107577</td>
+      <td>0.965600</td>
+      <td>01:50</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.036308</td>
+      <td>0.024930</td>
+      <td>0.991800</td>
+      <td>01:50</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<p>The beauty of fastai is state of the art accuracy can be obtained within 5 lines of code. No other Deep learning library has done this thing yet.</p>
+<p>so lets apply the same technique on handwritten telugu vowels of 16 charecters.</p>
+</section>
+<section id="now-lets-play-with-telugu-vowels-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="now-lets-play-with-telugu-vowels-dataset">Now lets play with telugu vowels dataset</h3>
+<p>the dataset is downloaded from IEEEdataport website and the autor of the dataset is Mr.&nbsp;Munisekhar velapuru. You can download dataset after registering in their website.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>url<span class="op">=</span><span class="st">'https://ieee-dataport.s3.amazonaws.com/open/26845/Final%20Dataset</span><span class="sc">%20o</span><span class="st">f%20Telugu%20Handwritten%20Chararcters.zip?response-content-disposition=attachment%3B</span><span class="sc">%20f</span><span class="st">ilename%3D</span><span class="sc">%22F</span><span class="st">inal%20Dataset</span><span class="sc">%20o</span><span class="st">f%20Telugu%20Handwritten%20Chararcters.zip%22&amp;X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAJOHYI4KJCE6Q7MIQ</span><span class="sc">%2F</span><span class="st">20210930</span><span class="sc">%2F</span><span class="st">us-east-1</span><span class="sc">%2F</span><span class="st">s3</span><span class="sc">%2F</span><span class="st">aws4_request&amp;X-Amz-Date=20210930T192654Z&amp;X-Amz-SignedHeaders=Host&amp;X-Amz-Expires=86400&amp;X-Amz-Signature=d91e04b5fbfd5547c8677ad5946c6d83e3d5c4531b69872a00a5dc72c5a7721b'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>telugu<span class="op">=</span>untar_data(url)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>telugu.ls()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+    <div>
+        <style>
+            /* Turns off some styling */
+            progress {
+                /* gets rid of default border in Firefox and Opera. */
+                border: none;
+                /* Needs to be in here for Safari polyfill so background images work as expected. */
+                background-size: auto;
+            }
+            .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+                background: #F44336;
+            }
+        </style>
+      <progress value="351764480" class="" max="351763674" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      100.00% [351764480/351763674 00:05&lt;00:00]
+    </div>
+    
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>(#1) [Path('/root/.fastai/data/Final%20Dataset%20of%20Telugu%20Handwritten%20Chararcters/Test1')]</code></pre>
+</div>
+</div>
+<p>Here we are only taking vowels data, though this dataset consists of whole lot of Telugu <code>vottulu, hallulu, guninthalu</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>path_t<span class="op">=</span>Path(telugu<span class="op">/</span><span class="st">'Test1'</span><span class="op">/</span><span class="st">'achulu'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Defining dataloader function</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_dls(bs<span class="op">=</span><span class="dv">64</span>):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  tel_block<span class="op">=</span>DataBlock(blocks<span class="op">=</span>(ImageBlock, CategoryBlock),</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                      get_items<span class="op">=</span>get_image_files,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                      get_y<span class="op">=</span>parent_label,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                      splitter<span class="op">=</span>RandomSplitter(valid_pct<span class="op">=</span><span class="fl">0.2</span>, seed<span class="op">=</span><span class="dv">42</span>),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                      batch_tfms<span class="op">=</span>Normalize(),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                      item_tfms<span class="op">=</span>Resize(<span class="dv">256</span>))</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> tel_block.dataloaders(path_t, bs<span class="op">=</span>bs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Lets look at typical batch of vowels</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dls<span class="op">=</span>get_dls()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>dls.show_batch(max_n<span class="op">=</span><span class="dv">9</span>,figsize<span class="op">=</span>(<span class="dv">4</span>,<span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="2021-09-20-Fastbook-chapter13_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>here we are using resnet34 since need to recognise 16 charecters and dataset is little messy as can be seen from <code>show_batch</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>learn_te<span class="op">=</span>cnn_learner(dls,resnet34, metrics<span class="op">=</span>accuracy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Downloading: "https://download.pytorch.org/models/resnet34-b627a593.pth" to /root/.cache/torch/hub/checkpoints/resnet34-b627a593.pth</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"aca6517cada24229b385a51293c8a3b9","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>learn_te.fine_tune(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>accuracy</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>2.527853</td>
+      <td>1.379285</td>
+      <td>0.548979</td>
+      <td>02:33</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>accuracy</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1.021525</td>
+      <td>0.566731</td>
+      <td>0.808277</td>
+      <td>03:32</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.462154</td>
+      <td>0.322305</td>
+      <td>0.896281</td>
+      <td>03:32</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.216439</td>
+      <td>0.258121</td>
+      <td>0.921425</td>
+      <td>03:32</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.114072</td>
+      <td>0.233685</td>
+      <td>0.928759</td>
+      <td>03:32</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.079014</td>
+      <td>0.224550</td>
+      <td>0.939759</td>
+      <td>03:32</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>0.040476</td>
+      <td>0.115557</td>
+      <td>0.963332</td>
+      <td>03:32</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>0.021079</td>
+      <td>0.125687</td>
+      <td>0.968046</td>
+      <td>03:32</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>0.009155</td>
+      <td>0.118855</td>
+      <td>0.969618</td>
+      <td>03:32</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>0.003386</td>
+      <td>0.106660</td>
+      <td>0.973284</td>
+      <td>03:32</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>0.002528</td>
+      <td>0.107360</td>
+      <td>0.972761</td>
+      <td>03:32</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+<section id="credits" class="level2">
+<h2 class="anchored" data-anchor-id="credits">Credits</h2>
+<ol type="1">
+<li><a href="https://github.com/fastai/fastbook/blob/master/13_convolutions.ipynb">Fastbook chapter 13</a> is helped me in understanding internals of convolutions</li>
+<li>Many of the images were collected from this <a href="https://towardsdatascience.com/a-comprehensive-introduction-to-different-types-of-convolutions-in-deep-learning-669281e58215">blog</a> by kunlun bai, and <a href="https://towardsdatascience.com/a-comprehensive-guide-to-convolutional-neural-networks-the-eli5-way-3bd2b1164a53">this</a> by sumit saha</li>
+<li><a href="https://cs231n.github.io/convolutional-networks/">cs231n</a> is also helped me for this blog</li>
+<li>Please see this <a href="https://vimeo.com/274236414">video</a> for indepth visualisation of network</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script type="application/vnd.jupyter.widget-state+json">
+{"2f9c57f32841433e83130082c41ddd67":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"FloatProgressModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"FloatProgressModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"ProgressView","bar_style":"success","description":"","description_tooltip":null,"layout":"IPY_MODEL_5baede18aea74965856ccc1777f0069a","max":87319819,"min":0,"orientation":"horizontal","style":"IPY_MODEL_fa3863c8ec674954985f30809c694476","value":87319819}},"39ff0710b5e64e52b6dc1f2d5e0ecd95":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"5baede18aea74965856ccc1777f0069a":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"5e33f88c0c0f4e44b5cb5095917061bf":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HTMLModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HTMLModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HTMLView","description":"","description_tooltip":null,"layout":"IPY_MODEL_8b560664cfab4047bb1dceb1056d2cd5","placeholder":"​","style":"IPY_MODEL_99142d91e620462c841fcc62fd3cdc20","value":" 83.3M/83.3M [00:02&lt;00:00, 43.8MB/s]"}},"8b560664cfab4047bb1dceb1056d2cd5":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"99142d91e620462c841fcc62fd3cdc20":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"DescriptionStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"DescriptionStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","description_width":""}},"aca6517cada24229b385a51293c8a3b9":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HBoxModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HBoxModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HBoxView","box_style":"","children":["IPY_MODEL_ec97ee584a9e4ff09b0b74867ce852d1","IPY_MODEL_2f9c57f32841433e83130082c41ddd67","IPY_MODEL_5e33f88c0c0f4e44b5cb5095917061bf"],"layout":"IPY_MODEL_f8c17112c8be46869ce3196fb7eebc1d"}},"ec97ee584a9e4ff09b0b74867ce852d1":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HTMLModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HTMLModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HTMLView","description":"","description_tooltip":null,"layout":"IPY_MODEL_39ff0710b5e64e52b6dc1f2d5e0ecd95","placeholder":"​","style":"IPY_MODEL_fcb8cced1e404d618dc0a88adddeebf6","value":"100%"}},"f8c17112c8be46869ce3196fb7eebc1d":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"fa3863c8ec674954985f30809c694476":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"ProgressStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"ProgressStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","bar_color":null,"description_width":""}},"fcb8cced1e404d618dc0a88adddeebf6":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"DescriptionStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"DescriptionStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","description_width":""}}}
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

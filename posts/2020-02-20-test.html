@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.475">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2020-02-20">
+<meta name="description" content="A tutorial of fastpages for Jupyter notebooks.">
+
+<title>mldurga - Fastpages Notebook Blog Post test check check</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">mldurga</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/mldurga"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/durgaamma2005"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Fastpages Notebook Blog Post test check check</h1>
+                  <div>
+        <div class="description">
+          A tutorial of fastpages for Jupyter notebooks.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">jupyter</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 20, 2020</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#this-is-an-attempt-to-analyse-scada-data-for-fuel-optimisation" id="toc-this-is-an-attempt-to-analyse-scada-data-for-fuel-optimisation" class="nav-link active" data-scroll-target="#this-is-an-attempt-to-analyse-scada-data-for-fuel-optimisation">This is an attempt to analyse SCADA data for fuel optimisation</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="this-is-an-attempt-to-analyse-scada-data-for-fuel-optimisation" class="level1">
+<h1>This is an attempt to analyse SCADA data for fuel optimisation</h1>
+<p>Data was collected from SCADA to two minute zoom level and comprises all data related to TPP available in SCADA. All boilers steam generations, power generations, COG , BFG consumptions, import and export data were collected and tried to analyse using data science techniques like tabular and collbarative filtering techniques to suggest optimum power generation and recommended COG, BFG conumptions per hour to each boiler.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastbook <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="92c297a9-3cc2-488d-fbd1-bf23f17ca9e5">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>mkdir data</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span><span class="dv">7</span><span class="er">z</span> x <span class="op">/</span>content<span class="op">/</span>gdrive<span class="op">/</span>MyDrive<span class="op">/</span>AI_projects_Data<span class="op">/</span>scada<span class="op">/</span>scada_tpp<span class="fl">.7</span><span class="er">z</span> <span class="op">-</span>odata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=en_US.UTF-8,Utf16=on,HugeFiles=on,64 bits,2 CPUs Intel(R) Xeon(R) CPU @ 2.20GHz (406F0),ASM,AES-NI)
+
+Scanning the drive for archives:
+  0M Scan /content/gdrive/MyDrive/AI_projects_Data/scada/                                                         1 file, 9204268 bytes (8989 KiB)
+
+Extracting archive: /content/gdrive/MyDrive/AI_projects_Data/scada/scada_tpp.7z
+--
+Path = /content/gdrive/MyDrive/AI_projects_Data/scada/scada_tpp.7z
+Type = 7z
+Physical Size = 9204268
+Headers Size = 1028
+Method = LZMA2:12m
+Solid = +
+Blocks = 1
+
+  0%     34% 3 - scada_tpp/august/01082106.xlsx                                       Everything is Ok
+
+Folders: 3
+Files: 58
+Size:       9730382
+Compressed: 9204268</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="dd2c1150-24c7-47d1-b6c1-d8689fe16a6f">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>path<span class="op">=</span><span class="st">'/content/data/scada_tpp'</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>files<span class="op">=</span>get_files(path, extensions<span class="op">=</span><span class="st">'.xlsx'</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>(#58) [Path('/content/data/scada_tpp/august/12082118.xlsx'),Path('/content/data/scada_tpp/august/12082106.xlsx'),Path('/content/data/scada_tpp/august/03082118.xlsx'),Path('/content/data/scada_tpp/august/08082106.xlsx'),Path('/content/data/scada_tpp/august/03082106.xlsx'),Path('/content/data/scada_tpp/august/04082118.xlsx'),Path('/content/data/scada_tpp/august/04082106.xlsx'),Path('/content/data/scada_tpp/august/09082118.xlsx'),Path('/content/data/scada_tpp/august/05082106.xlsx'),Path('/content/data/scada_tpp/august/07082106.xlsx')...]</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="9b5b19f4-ca89-4c0e-92ff-280d26c298ba">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>frames<span class="op">=</span>[pd.read_excel(x) <span class="cf">for</span> x <span class="kw">in</span> files]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df1<span class="op">=</span>pd.concat(frames)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>df1.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Time</th>
+      <th>ms</th>
+      <th>Pane1-Total COG flow to TPP and PP2 boilers</th>
+      <th>Pane1-Total BFG flow to TPP and PP2 boilers</th>
+      <th>Pane1-GBS CG4 FLOW FOR MIXING WITH BFG</th>
+      <th>Pane1-PBH BLR1 SH ST1 OUTLT HDR FLOW</th>
+      <th>Pane1-PBH BLR2 SH ST1 OUTLT HDR FLOW</th>
+      <th>Pane1-PBH BLR3 SH ST1 OUTLT HDR FLOW</th>
+      <th>Pane1-PBH BLR4 SH ST1 OUTLT HDR FLOW</th>
+      <th>Pane1-PBH BLR5 SH ST1 OUTLT HDR FLOW</th>
+      <th>Pane1-BOILER-6 STEAM FLOW</th>
+      <th>Pane1-PBH BLR1 CG4 GAS SUPPLY HDR FLOW</th>
+      <th>Pane1-PBH BLR2 CG4 GAS SUPPLY HDR FLOW</th>
+      <th>Pane1-PBH BLR3 CG4 GAS SUPPLY HDR FLOW</th>
+      <th>Pane1-PBH BLR4 CG4 GAS SUPPLY HDR FLOW</th>
+      <th>Pane1-PBH BLR5 CG4 GAS SUPPLY HDR FLOW</th>
+      <th>Pane1-PBH BLR5 BFG GAS SUPPLY HDR FLOW</th>
+      <th>Pane1-PBH BLR4 BFG GAS SUPPLY HDR FLOW</th>
+      <th>Pane1-PBH BLR3 BFG GAS SUPPLY HDR FLOW</th>
+      <th>Pane1-PBH BLR1 BFG GAS SUPPLY HDR FLOW</th>
+      <th>Pane1-PBH BLR2 BFG GAS SUPPLY HDR FLOW</th>
+      <th>Pane1-BFG MAIN HDR FLOW BOILER-6</th>
+      <th>Pane1-Active Power of GSB1 GEN1</th>
+      <th>Pane1-Active Power of GSB1 GEN2</th>
+      <th>Pane1-Active Power of GSB1 GEN3</th>
+      <th>Pane1-MWH</th>
+      <th>Pane1-Import Active Power of TG5 Generation</th>
+      <th>Pane1-Active Power of BPTG GEN1</th>
+      <th>Pane1-Active Power of BPTG GEN2</th>
+      <th>Pane1-Active Power of GETS GEN2</th>
+      <th>Pane1-Active Power of GETS GEN1</th>
+      <th>Pane1-MWH.1</th>
+      <th>Pane1-SHRPP TOTAL ACTIVE POWER</th>
+      <th>Pane1-BF-3 TRT MW</th>
+      <th>Pane1-MW AT PP-2</th>
+      <th>Pane1-MW OF TOTAL GENERATION</th>
+      <th>Pane1-MW OF IMPORT</th>
+      <th>Pane1-MW OF EXPORT</th>
+      <th>Pane1-BF1 SCH COLD BLAST INLT HDR FLOW</th>
+      <th>Pane1-BF2 SCH COLD BLAST INLT HDR FLOW</th>
+      <th>Pane1-COLD BLAST FLOW AT BF3</th>
+      <th>Pane1-MAIN STEAM HDR FLOW AT BOILER1 OF PP-2</th>
+      <th>Pane1-MAIN STEAM HDR FLOW AT BOILER2 OF PP-2</th>
+      <th>Pane1-CO GAS HDR FLOW AT BOILER2 OF PP-2</th>
+      <th>Pane1-CO GAS HDR FLOW AT BOILER-1 PP-2</th>
+      <th>Pane1-BF GAS HDR FLOW AT BOILER-1 PP-2</th>
+      <th>Pane1-BF GAS HDR FLOW AT BOILER2 OF PP-2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2021-08-12 06:00:00</td>
+      <td>0</td>
+      <td>101551.216600</td>
+      <td>503672.672400</td>
+      <td>6094.000000</td>
+      <td>297.680000</td>
+      <td>239.786667</td>
+      <td>67.866667</td>
+      <td>226.280000</td>
+      <td>281.786667</td>
+      <td>-0.0750</td>
+      <td>27268.220700</td>
+      <td>31777.720700</td>
+      <td>62.200002</td>
+      <td>16940.429690</td>
+      <td>16572.412760</td>
+      <td>26525.666670</td>
+      <td>53221.333330</td>
+      <td>266.333333</td>
+      <td>10364.333330</td>
+      <td>1989.000000</td>
+      <td>66529.310340</td>
+      <td>23.970510</td>
+      <td>21.719055</td>
+      <td>50.095828</td>
+      <td>12.305167</td>
+      <td>42.981603</td>
+      <td>6.269791</td>
+      <td>5.401353</td>
+      <td>1.598553</td>
+      <td>3.025691</td>
+      <td>6.600560</td>
+      <td>0.0104</td>
+      <td>6.583310</td>
+      <td>112.362498</td>
+      <td>302.731740</td>
+      <td>112.418999</td>
+      <td>0.0</td>
+      <td>321987.125000</td>
+      <td>293340.593800</td>
+      <td>5368.946940</td>
+      <td>211.880208</td>
+      <td>218.247396</td>
+      <td>4637.333333</td>
+      <td>4169.813333</td>
+      <td>170125.0</td>
+      <td>176427.5</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2021-08-12 06:02:24</td>
+      <td>0</td>
+      <td>101920.035756</td>
+      <td>508690.087837</td>
+      <td>5835.760000</td>
+      <td>297.123200</td>
+      <td>234.269867</td>
+      <td>69.895467</td>
+      <td>227.912000</td>
+      <td>283.777067</td>
+      <td>-0.6942</td>
+      <td>27173.676636</td>
+      <td>32136.614454</td>
+      <td>95.788004</td>
+      <td>17271.954996</td>
+      <td>16217.872136</td>
+      <td>26104.066667</td>
+      <td>54589.493333</td>
+      <td>810.333333</td>
+      <td>10598.253333</td>
+      <td>675.240000</td>
+      <td>67229.619502</td>
+      <td>23.938060</td>
+      <td>21.641155</td>
+      <td>50.053336</td>
+      <td>12.350846</td>
+      <td>42.952255</td>
+      <td>6.235480</td>
+      <td>5.406851</td>
+      <td>1.615383</td>
+      <td>3.170250</td>
+      <td>6.621032</td>
+      <td>0.0104</td>
+      <td>6.769255</td>
+      <td>114.984500</td>
+      <td>305.385534</td>
+      <td>104.595481</td>
+      <td>0.0</td>
+      <td>325898.975048</td>
+      <td>294036.113800</td>
+      <td>5342.191237</td>
+      <td>212.670208</td>
+      <td>218.711146</td>
+      <td>4657.250133</td>
+      <td>4186.197333</td>
+      <td>168970.6</td>
+      <td>175670.3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2021-08-12 06:04:48</td>
+      <td>0</td>
+      <td>101648.730895</td>
+      <td>506377.673575</td>
+      <td>5703.253334</td>
+      <td>293.720533</td>
+      <td>234.726933</td>
+      <td>68.906667</td>
+      <td>229.372267</td>
+      <td>288.269867</td>
+      <td>0.9084</td>
+      <td>27278.224528</td>
+      <td>31991.222425</td>
+      <td>165.141003</td>
+      <td>17045.547626</td>
+      <td>16294.896860</td>
+      <td>26615.653336</td>
+      <td>52913.066664</td>
+      <td>838.213333</td>
+      <td>10540.226664</td>
+      <td>3407.026666</td>
+      <td>67254.887036</td>
+      <td>23.955130</td>
+      <td>21.684837</td>
+      <td>50.014844</td>
+      <td>12.288580</td>
+      <td>42.955826</td>
+      <td>6.359599</td>
+      <td>5.489332</td>
+      <td>1.615604</td>
+      <td>2.962657</td>
+      <td>6.591925</td>
+      <td>0.0104</td>
+      <td>6.597269</td>
+      <td>114.336667</td>
+      <td>304.531941</td>
+      <td>100.581682</td>
+      <td>0.0</td>
+      <td>328124.206300</td>
+      <td>296528.403368</td>
+      <td>5072.515404</td>
+      <td>213.901042</td>
+      <td>219.821771</td>
+      <td>4592.281600</td>
+      <td>4179.323734</td>
+      <td>169946.0</td>
+      <td>176668.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2021-08-12 06:07:12</td>
+      <td>0</td>
+      <td>101558.265952</td>
+      <td>505379.559592</td>
+      <td>5889.200000</td>
+      <td>291.907200</td>
+      <td>237.860800</td>
+      <td>69.488000</td>
+      <td>228.953600</td>
+      <td>286.160000</td>
+      <td>-0.9828</td>
+      <td>27332.701484</td>
+      <td>31844.999997</td>
+      <td>206.970502</td>
+      <td>17316.013905</td>
+      <td>16360.466096</td>
+      <td>25377.600000</td>
+      <td>52430.720000</td>
+      <td>601.800000</td>
+      <td>9409.840000</td>
+      <td>961.520000</td>
+      <td>67190.406619</td>
+      <td>23.963564</td>
+      <td>21.686560</td>
+      <td>50.072238</td>
+      <td>12.299720</td>
+      <td>42.963882</td>
+      <td>6.406375</td>
+      <td>5.504303</td>
+      <td>1.642149</td>
+      <td>3.016826</td>
+      <td>6.618716</td>
+      <td>0.0104</td>
+      <td>6.259154</td>
+      <td>116.193999</td>
+      <td>306.269362</td>
+      <td>100.044963</td>
+      <td>0.0</td>
+      <td>329036.832484</td>
+      <td>295417.576232</td>
+      <td>5119.948848</td>
+      <td>215.286250</td>
+      <td>220.732500</td>
+      <td>4573.184000</td>
+      <td>4185.894400</td>
+      <td>170085.6</td>
+      <td>176779.5</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2021-08-12 06:09:36</td>
+      <td>0</td>
+      <td>101369.599980</td>
+      <td>505231.689183</td>
+      <td>5726.960000</td>
+      <td>293.755200</td>
+      <td>236.770133</td>
+      <td>69.133867</td>
+      <td>225.089067</td>
+      <td>285.592000</td>
+      <td>-0.9024</td>
+      <td>27440.877470</td>
+      <td>31649.796172</td>
+      <td>115.277335</td>
+      <td>17163.986141</td>
+      <td>16450.292787</td>
+      <td>26477.840000</td>
+      <td>53217.026667</td>
+      <td>509.320000</td>
+      <td>10156.933333</td>
+      <td>1737.400000</td>
+      <td>67048.882282</td>
+      <td>23.964123</td>
+      <td>21.683845</td>
+      <td>50.132416</td>
+      <td>12.295367</td>
+      <td>42.968489</td>
+      <td>6.394841</td>
+      <td>5.490983</td>
+      <td>1.652965</td>
+      <td>2.997148</td>
+      <td>6.595575</td>
+      <td>0.0104</td>
+      <td>6.623072</td>
+      <td>114.748334</td>
+      <td>305.235693</td>
+      <td>104.931444</td>
+      <td>0.0</td>
+      <td>327723.556228</td>
+      <td>301083.050808</td>
+      <td>5267.296407</td>
+      <td>214.584896</td>
+      <td>219.914271</td>
+      <td>4545.996800</td>
+      <td>4196.215467</td>
+      <td>170270.1</td>
+      <td>177122.9</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df1.drop(columns<span class="op">=</span><span class="st">'ms'</span>, inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="fb38bc5b-f5da-4a13-ee4d-3845890d766a">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>columns<span class="op">=</span>[<span class="st">'Time'</span>, <span class="st">'Total_COG'</span>,<span class="st">'Total_BFG'</span>,<span class="st">'COG_inj'</span>,<span class="st">'Blr1_stm_fl'</span>,<span class="st">'Blr2_stm_fl'</span>,<span class="st">'Blr3_stm_fl'</span>,<span class="st">'Blr4_stm_fl'</span>,<span class="st">'Blr5_stm_fl'</span>, <span class="st">'Blr6_stm_fl'</span>,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>       <span class="st">'Blr1_COG_fl'</span>,<span class="st">'Blr2_COG_fl'</span>,<span class="st">'Blr3_COG_fl'</span>,<span class="st">'Blr4_COG_fl'</span>,<span class="st">'Blr5_COG_fl'</span>,<span class="st">'Blr5_BFG_fl'</span>,<span class="st">'Blr4_BFG_fl'</span>,<span class="st">'Blr3_BFG_fl'</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>       <span class="st">'Blr1_BFG_fl'</span>,<span class="st">'Blr2_BFG_fl'</span>,<span class="st">'Blr6_BFG_fl'</span>, <span class="st">'ActPower_TG1'</span>,<span class="st">'ActPower_TG2'</span>, <span class="st">'ActPower_TG3'</span>,<span class="st">'ActPower_TG4'</span>, <span class="st">'ActPower_TG5'</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>       <span class="st">'ActPower_BPTG1'</span>, <span class="st">'ActPower_BPTG2'</span>,<span class="st">'ActPower_GETS2'</span>, <span class="st">'ActPower_GETS1'</span>,<span class="st">'ActPower_COB4'</span>, <span class="st">'ActPower_SHRPP'</span>, <span class="st">'ActPower_TRT'</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>       <span class="st">'ActPower_PP2'</span>, <span class="st">'ActPower_TOTAL'</span>,<span class="st">'IMPORT'</span>, <span class="st">'EXPORT'</span>,<span class="st">'BF1_COLD_BLAST'</span>,<span class="st">'BF2_COLD_BLAST'</span>,<span class="st">'BF3_COLD_BLAST'</span>,<span class="st">'PP2_Blr1_stm_fl'</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>       <span class="st">'PP2_Blr2_stm_fl'</span>,<span class="st">'PP2_Blr2_COG_fl'</span>,<span class="st">'PP2_Blr1_COG_fl'</span>,<span class="st">'PP2_Blr1_BFG_fl'</span>,<span class="st">'PP2_Blr2_BFG_fl'</span>]</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>df1.columns<span class="op">=</span>columns</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>df1<span class="op">=</span>df1.sort_values(<span class="st">'Time'</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>df1.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Time</th>
+      <th>Total_COG</th>
+      <th>Total_BFG</th>
+      <th>COG_inj</th>
+      <th>Blr1_stm_fl</th>
+      <th>Blr2_stm_fl</th>
+      <th>Blr3_stm_fl</th>
+      <th>Blr4_stm_fl</th>
+      <th>Blr5_stm_fl</th>
+      <th>Blr6_stm_fl</th>
+      <th>Blr1_COG_fl</th>
+      <th>Blr2_COG_fl</th>
+      <th>Blr3_COG_fl</th>
+      <th>Blr4_COG_fl</th>
+      <th>Blr5_COG_fl</th>
+      <th>Blr5_BFG_fl</th>
+      <th>Blr4_BFG_fl</th>
+      <th>Blr3_BFG_fl</th>
+      <th>Blr1_BFG_fl</th>
+      <th>Blr2_BFG_fl</th>
+      <th>Blr6_BFG_fl</th>
+      <th>ActPower_TG1</th>
+      <th>ActPower_TG2</th>
+      <th>ActPower_TG3</th>
+      <th>ActPower_TG4</th>
+      <th>ActPower_TG5</th>
+      <th>ActPower_BPTG1</th>
+      <th>ActPower_BPTG2</th>
+      <th>ActPower_GETS2</th>
+      <th>ActPower_GETS1</th>
+      <th>ActPower_COB4</th>
+      <th>ActPower_SHRPP</th>
+      <th>ActPower_TRT</th>
+      <th>ActPower_PP2</th>
+      <th>ActPower_TOTAL</th>
+      <th>IMPORT</th>
+      <th>EXPORT</th>
+      <th>BF1_COLD_BLAST</th>
+      <th>BF2_COLD_BLAST</th>
+      <th>BF3_COLD_BLAST</th>
+      <th>PP2_Blr1_stm_fl</th>
+      <th>PP2_Blr2_stm_fl</th>
+      <th>PP2_Blr2_COG_fl</th>
+      <th>PP2_Blr1_COG_fl</th>
+      <th>PP2_Blr1_BFG_fl</th>
+      <th>PP2_Blr2_BFG_fl</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2021-07-15 06:00:00</td>
+      <td>55783.931030</td>
+      <td>613856.706900</td>
+      <td>4826.666667</td>
+      <td>255.906667</td>
+      <td>219.546667</td>
+      <td>0.093333</td>
+      <td>210.466667</td>
+      <td>311.400000</td>
+      <td>375.7050</td>
+      <td>8448.833333</td>
+      <td>9250.954102</td>
+      <td>155.500003</td>
+      <td>17062.237630</td>
+      <td>12625.304360</td>
+      <td>4720.333333</td>
+      <td>66492.666670</td>
+      <td>589.333333</td>
+      <td>58349.666670</td>
+      <td>30135.333330</td>
+      <td>101752.586200</td>
+      <td>49.676435</td>
+      <td>48.884159</td>
+      <td>50.472379</td>
+      <td>32.096167</td>
+      <td>47.193966</td>
+      <td>6.559071</td>
+      <td>3.718974</td>
+      <td>2.079202</td>
+      <td>2.779181</td>
+      <td>5.611143</td>
+      <td>0.0104</td>
+      <td>6.887196</td>
+      <td>118.216667</td>
+      <td>383.987081</td>
+      <td>62.332998</td>
+      <td>0.0</td>
+      <td>339936.406300</td>
+      <td>297196.197900</td>
+      <td>5058.680339</td>
+      <td>223.158854</td>
+      <td>226.611979</td>
+      <td>3914.880000</td>
+      <td>4281.066667</td>
+      <td>171787.5</td>
+      <td>183752.5</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2021-07-15 06:02:24</td>
+      <td>52758.156185</td>
+      <td>610084.660268</td>
+      <td>4919.146667</td>
+      <td>255.669867</td>
+      <td>222.266667</td>
+      <td>1.635733</td>
+      <td>212.015467</td>
+      <td>305.505600</td>
+      <td>380.6514</td>
+      <td>8053.863099</td>
+      <td>8813.688164</td>
+      <td>155.500000</td>
+      <td>15373.507784</td>
+      <td>12199.233896</td>
+      <td>629.453333</td>
+      <td>66381.146667</td>
+      <td>594.773333</td>
+      <td>58238.146667</td>
+      <td>28851.493333</td>
+      <td>101899.839508</td>
+      <td>49.625725</td>
+      <td>49.748761</td>
+      <td>50.421902</td>
+      <td>32.058806</td>
+      <td>47.180336</td>
+      <td>6.612147</td>
+      <td>3.977640</td>
+      <td>2.006621</td>
+      <td>2.743417</td>
+      <td>5.592871</td>
+      <td>0.0104</td>
+      <td>6.683129</td>
+      <td>119.370667</td>
+      <td>386.066363</td>
+      <td>63.416838</td>
+      <td>0.0</td>
+      <td>340968.361276</td>
+      <td>297619.562892</td>
+      <td>4717.864948</td>
+      <td>223.272604</td>
+      <td>228.034479</td>
+      <td>3891.225600</td>
+      <td>4279.889067</td>
+      <td>171333.9</td>
+      <td>183544.9</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2021-07-15 06:04:48</td>
+      <td>55346.521902</td>
+      <td>611734.286050</td>
+      <td>5006.106666</td>
+      <td>264.706667</td>
+      <td>230.200000</td>
+      <td>-0.133867</td>
+      <td>222.016000</td>
+      <td>293.845867</td>
+      <td>390.3450</td>
+      <td>8709.192207</td>
+      <td>9026.152761</td>
+      <td>151.923502</td>
+      <td>16696.190404</td>
+      <td>12680.402912</td>
+      <td>745.733333</td>
+      <td>66618.920000</td>
+      <td>501.160000</td>
+      <td>57579.226664</td>
+      <td>29621.706664</td>
+      <td>102289.393593</td>
+      <td>49.589352</td>
+      <td>51.670523</td>
+      <td>50.425633</td>
+      <td>38.214120</td>
+      <td>47.140453</td>
+      <td>6.602970</td>
+      <td>4.419327</td>
+      <td>2.054747</td>
+      <td>2.756197</td>
+      <td>5.606229</td>
+      <td>0.0104</td>
+      <td>6.693920</td>
+      <td>119.788667</td>
+      <td>394.681095</td>
+      <td>35.350479</td>
+      <td>0.0</td>
+      <td>340421.040388</td>
+      <td>295086.958316</td>
+      <td>4895.239857</td>
+      <td>223.484583</td>
+      <td>229.624688</td>
+      <td>3941.367466</td>
+      <td>4291.959466</td>
+      <td>170963.1</td>
+      <td>183581.1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2021-07-15 06:07:12</td>
+      <td>56334.838664</td>
+      <td>610725.224861</td>
+      <td>4325.760000</td>
+      <td>265.393600</td>
+      <td>228.768000</td>
+      <td>0.475200</td>
+      <td>222.422400</td>
+      <td>303.577600</td>
+      <td>390.4110</td>
+      <td>8576.602422</td>
+      <td>9165.947383</td>
+      <td>122.534001</td>
+      <td>17084.163671</td>
+      <td>13038.519492</td>
+      <td>862.920000</td>
+      <td>65308.560000</td>
+      <td>268.600000</td>
+      <td>57804.080000</td>
+      <td>30057.360000</td>
+      <td>101872.914211</td>
+      <td>49.507117</td>
+      <td>51.735209</td>
+      <td>50.459352</td>
+      <td>41.813001</td>
+      <td>47.144430</td>
+      <td>6.608896</td>
+      <td>4.691723</td>
+      <td>2.077191</td>
+      <td>2.748161</td>
+      <td>5.610267</td>
+      <td>0.0104</td>
+      <td>6.927508</td>
+      <td>119.340498</td>
+      <td>398.510631</td>
+      <td>22.270320</td>
+      <td>0.0</td>
+      <td>337018.512540</td>
+      <td>296206.858748</td>
+      <td>5034.670273</td>
+      <td>223.720313</td>
+      <td>229.860938</td>
+      <td>3912.960000</td>
+      <td>4284.800000</td>
+      <td>170668.5</td>
+      <td>183829.2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2021-07-15 06:09:36</td>
+      <td>56996.185368</td>
+      <td>615631.248069</td>
+      <td>4898.000000</td>
+      <td>262.877333</td>
+      <td>228.106667</td>
+      <td>-1.259200</td>
+      <td>219.472000</td>
+      <td>318.340267</td>
+      <td>391.0362</td>
+      <td>8625.895911</td>
+      <td>9264.171472</td>
+      <td>88.997832</td>
+      <td>17236.138910</td>
+      <td>12933.194260</td>
+      <td>779.280000</td>
+      <td>66509.666667</td>
+      <td>462.400000</td>
+      <td>57962.520000</td>
+      <td>30696.333333</td>
+      <td>102593.246088</td>
+      <td>49.561480</td>
+      <td>51.746712</td>
+      <td>50.435974</td>
+      <td>42.133168</td>
+      <td>47.152799</td>
+      <td>6.617838</td>
+      <td>4.725007</td>
+      <td>2.056070</td>
+      <td>2.800367</td>
+      <td>5.603761</td>
+      <td>0.0104</td>
+      <td>7.011028</td>
+      <td>118.054001</td>
+      <td>397.826609</td>
+      <td>31.359919</td>
+      <td>0.0</td>
+      <td>337715.816692</td>
+      <td>296601.986644</td>
+      <td>5085.494570</td>
+      <td>223.784896</td>
+      <td>230.159271</td>
+      <td>3907.793067</td>
+      <td>4282.670933</td>
+      <td>171779.0</td>
+      <td>185924.6</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.475">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Blog – fastbook-chapter2</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Blog</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+<hr>
+<p>badges: true branch: master categories: - fastbook date: ‘2021-08-04’ description: “Want to play with Modi’s beard…” hide: false image: https://user-images.githubusercontent.com/19243618/137372923-f83f6800-9bac-43e8-94c3-dbf5c82acfd4.png metadata_key1: metadata_value1 metadata_key2: metadata_value2 output-file: 2021-08-04-fastbook-chapter2.html search: false</p>
+<section id="toc-true" class="level2">
+<h2 class="anchored" data-anchor-id="toc-true">toc: true</h2>
+</section>
+<section id="play-with-beard-first" class="level2">
+<h2 class="anchored" data-anchor-id="play-with-beard-first">Play with Beard First !</h2>
+<p>It is very exciting for me to share with you the recent experiments with deep learning after introduced to <a href="www.fast.ai">fast.ai</a>. Just open this <a href="https://mybinder.org/v2/gh/mldurga/Modi-beard/HEAD?urlpath=%2Fvoila%2Frender%2Fmodi-beard.ipynb">link</a> and upload any modi (Indian PM) photo either from 2014 or 2021 (you know difference is beard :smiley:), my model will predict whether its from 2014 or 2021 with nearly 93% accuracy. Journey into deep learning is fun and exhilarating. I seriously urge you to look at fast.ai if you are interested in deep learning. Now, lets dive into my blog.</p>
+</section>
+<section id="what-is-fastai" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-fastai">What is Fastai</h2>
+<p>Fastai is front runner and research organisation working on making Deep Learning as democratic as possible with beautiful community support. Fastai in a way cutshorts the path needed for one to become a great ML practitioner and honestly stands to the title of its popular book: <a href="https://www.amazon.in/Deep-Learning-Coders-fastai-PyTorch/dp/1492045527/ref=sr_1_1?dchild=1&amp;keywords=jeremy+howard&amp;qid=1627333514&amp;sr=8-1"><strong>Deep Learning for coders with fastai &amp; PyTorch (AI Applicaitons without a PhD)</strong></a>. I sincearly want to thank <strong>Mr Jeremy Howard and Mr Sylvain Gugger</strong> for presenting such an awesome gem in just 600 pages. The series of posts that I am going to write on this book is in a way to solidfy my understanding of the concepts taught in the book and practice writing as encouraged greatly by authors and community. I hope this turns out to be good source to refer for me and beginners who are just behind me.</p>
+</section>
+<section id="what-tools-do-you-need" class="level2">
+<h2 class="anchored" data-anchor-id="what-tools-do-you-need">What tools do you need</h2>
+<p>Mind you we are just beginners and we dont need anything more than <a href="https://colab.research.google.com/notebooks/empty.ipynb">Google colab scratchpad</a>. This will spinup notebook with free GPU (Graphical Processing Unit) for you with just click of a mouse. Great colab tips can be found <a href="https://amitness.com/2020/06/google-colaboratory-tips/">here</a>. Full server notebooks like GCP and AWS instances are still difficult to setup for complete beginners like me. Believe me, I have spent one whole month in understanding how to setup GCP instance. Now almost all the time I spinup colab for any course work for its ease and simplicity. People like <a href="https://github.com/muellerzr">Zachery Mueller</a>, who is like poster child for fastai community, prefers to practice with colab.</p>
+</section>
+<section id="domains-of-deep-learning" class="level2">
+<h2 class="anchored" data-anchor-id="domains-of-deep-learning">Domains of Deep Learning</h2>
+<p>Deep learning can be applied to wide variety of tasks and tinkering mindset can force one to enable applying it in creative ways. The increasing availabilty of data in any field will provide possible use case and can leverage new insights. However, the current research and practice broadly falls under following categories.</p>
+<section id="computer-vision" class="level3">
+<h3 class="anchored" data-anchor-id="computer-vision">Computer Vision:</h3>
+<p>What do you think Tesla FSD (Full Self Driving) cars equipped with for its Autopilot system? Computer vision plays central bedrock role for autonomous driving. Today computers are as good as people in identifying objects in an image using their neural networks. We take up computer vision in this chapter and slowly expand to other domains as course progress. Any deep learning system predictions depend on the quality of the training data that we provide. Certainly this book provides tools and strategies to get state of the art accuracy with innovative methods even with limited data.</p>
+</section>
+<section id="natural-language-processing-nlp" class="level3">
+<h3 class="anchored" data-anchor-id="natural-language-processing-nlp">Natural Language Processing NLP:</h3>
+<p>Did you ever hear GPT-3, GPT-2, Transformers, Huggingface, twitter bots, google translate etc. in deep learning space, then all these terms belong to text domain of deep learning. This domain deals with how computers handles text data and its response for a specified task. Today NLP tasks ranges from classifying documents, sentiment analysis (positive, negetive), summarising documents, context appropriate text generation etc. Downside of technology ranges from ‘throwing abuses by bot’ to ‘bot generated twitter trolls at massive scale’. However, Google translate massively used by people in ever increasing multicultural society of today.</p>
+</section>
+<section id="tabular-data-recsys" class="level3">
+<h3 class="anchored" data-anchor-id="tabular-data-recsys">Tabular Data &amp; RecSys:</h3>
+<p>Most common ML applications we find at industry is tabular data based. Though traditional ML techniques like random forests and gradient boost techniques still hold good, deep learning offlate making strides into tabular data domain. RecSys - Recommendation System is also type of tabular data but the data is highly cardinal and deep learning can be applied to such data with good results. E-commerce websites like amazon applies deep learning techniques for its user-table to recommend products.</p>
+</section>
+</section>
+<section id="thinking-approach" class="level2">
+<h2 class="anchored" data-anchor-id="thinking-approach">Thinking Approach</h2>
+<p>When solving any problem at hand with ML and deep learning techniques, the fundamental thinking approach should be the predictions of the model should be helpful to the real world. Jeremy Howard named this approach as <strong>Drivetrain Approach</strong> and his elegant presentation can be seen <a href="https://www.youtube.com/watch?v=vYrWTDxoeGg&amp;ab_channel=O%27Reilly">here</a>. His key ideas are as follows: 1. Objective: What outcome am I trying to achieve 2. Levers: What inputs can we control 3. Data: What data can we collect 4. Models: How the levers influence the objective</p>
+<p>Thouogh seemingly simple concept, its application in real world has great impact on the outcome of the modeling. Ingeneral the data we have on hand may not be causal and the outcomes may not represent the actual conditions. If we can control certain input conditions by injecting randomness the causal relationships can be collected and new data will become food for the model and thus accuracy of the predictions can be improved.</p>
+</section>
+<section id="lets-dive-in" class="level2">
+<h2 class="anchored" data-anchor-id="lets-dive-in">Lets Dive In</h2>
+<p>To make your first dive in experience into deep learning little more interesting, I have choosen a “Modi’s Beard” project. Interesting..! yes. You upload any of the present Indian PM “Narendra modi” image, my app will tell whether the image is “2014 Modi” or “2021 Modi”. This we are doing with computer vision deep learning techniques. This notebook will detail each and every step of the process.</p>
+<section id="gathering-data" class="level3">
+<h3 class="anchored" data-anchor-id="gathering-data">Gathering Data</h3>
+<p>Though “Bing Image Search” was the primary source referred by book, offlate course.fast.ai website given alternative DuckDuckGo as this one dont need any key. Please read docs for more information on <a href="https://course.fast.ai/images#DuckDuckGo">this</a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastbook <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ipywidgets <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install fastai <span class="op">--</span>upgrade <span class="op">-</span>Uqq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> fastai</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fastai.__version__</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>'2.5.2'</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="working-with-bears-first" class="level2">
+<h2 class="anchored" data-anchor-id="working-with-bears-first">Working with Bears First</h2>
+<p>First we will learn how to train our first ML model to recognise <strong>“type of bear”</strong> images then we will go ahead with “Modi Beard Experimentation”. In a way this ensures I am on right track and not messedup anything.</p>
+<section id="downloading-images-with-duckduckgo-api" class="level4">
+<h4 class="anchored" data-anchor-id="downloading-images-with-duckduckgo-api">Downloading Images with DuckDuckGo API</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>bear_types<span class="op">=</span><span class="st">'grizzly'</span>,<span class="st">'black'</span>,<span class="st">'teddy'</span> <span class="co"># types of bears we want to identify</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>path<span class="op">=</span>Path(<span class="st">'bears'</span>) <span class="co"># creating bears folder path for storing all data</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> path.exists(): <span class="co"># bears folder will be created if doesnt exists</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    path.mkdir()</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> o <span class="kw">in</span> bear_types:</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        dest <span class="op">=</span> (path<span class="op">/</span>o) <span class="co"># creating path for each type of bear</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        dest.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>) <span class="co"># creating child folders under bears</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        results <span class="op">=</span> search_images_ddg(<span class="ss">f'</span><span class="sc">{</span>o<span class="sc">}</span><span class="ss"> bear'</span>, max_images<span class="op">=</span><span class="dv">150</span>) <span class="co"># Collecting URLs from search engine</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        download_images(dest, urls<span class="op">=</span>results) <span class="co"># downloading URLs at specified folders</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="checking-for-failed-images" class="level4">
+<h4 class="anchored" data-anchor-id="checking-for-failed-images">Checking for failed images</h4>
+<p>Many times images from the URLs might not be working and we wanted to remomve such images from our training set. Fastai provides good function to remove and unlink the path to those images in our data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fns<span class="op">=</span>get_image_files(path) <span class="co"># collecting all downloded image files paths (fns - filenames)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fns</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>failed<span class="op">=</span>verify_images(fns) <span class="co"># verifying wether image is ok or not</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>failed</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>failed.<span class="bu">map</span>(Path.unlink) <span class="co"># unlinking failed images</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(#0) []</code></pre>
+</div>
+</div>
+</section>
+<section id="creating-datablocks-and-dataloaders" class="level4">
+<h4 class="anchored" data-anchor-id="creating-datablocks-and-dataloaders">Creating DataBlocks and DataLoaders</h4>
+<p>This will ease the whole process of data handling and channelise the data into model and facilitates both training and validation sets for model. Please explore <a href="https://www.youtube.com/watch?v=NzWadB_fcTE&amp;ab_channel=JarvislabsAI">these</a> videos by Vsihnu Subramaniyam for further undestanding.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>bears <span class="op">=</span> DataBlock(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    blocks<span class="op">=</span>(ImageBlock, CategoryBlock), <span class="co"># This will tell what kind of data we are working with</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    get_items<span class="op">=</span>get_image_files, <span class="co"># it will collect all image files from the path</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    splitter<span class="op">=</span>RandomSplitter(valid_pct<span class="op">=</span><span class="fl">0.2</span>, seed<span class="op">=</span><span class="dv">42</span>), <span class="co"># splits data into train and valid sets</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    get_y<span class="op">=</span>parent_label, <span class="co"># labelling of data for each image</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    item_tfms<span class="op">=</span>RandomResizedCrop(<span class="dv">224</span>,<span class="fl">0.5</span>), batch_tfms<span class="op">=</span>aug_transforms()) <span class="co"># Resizing of each image to standard size and augmentaton of image</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#now the above template will be fed with actual data source, here it is 'path'</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>dls<span class="op">=</span>bears.dataloaders(path) <span class="co"># data in 'path' will be fed to DataBlock through dataloders by filepaths</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>dls.show_batch()</code> in a way helps us to check wether everything was went well or not. This will show us a batch of images that are going under hammer for training.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dls.show_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="2021-08-04-Fastbook-chapter2_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="training-bears-model" class="level4">
+<h4 class="anchored" data-anchor-id="training-bears-model">Training Bears Model</h4>
+<p><a href="https://pytorch.org/hub/pytorch_vision_resnet/#model-description">ResNet18</a> is a model already trained on ImageNet, and can act like backbone for State of The Art performance on image recognition. we are using resnet18 for this training task using convolutional neural netowrks. Pretrained model is already good at recognising many types of images and here that model will be nudged or finetuned to work on our task of recognising bears.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>learn<span class="op">=</span>cnn_learner(dls,resnet18, metrics<span class="op">=</span>error_rate)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>learn.fine_tune(<span class="dv">4</span>,<span class="fl">7e-4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Downloading: "https://download.pytorch.org/models/resnet18-f37072fd.pth" to /root/.cache/torch/hub/checkpoints/resnet18-f37072fd.pth</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"8fd9c12749364dcca1ef6075b3cb6b67","version_major":2,"version_minor":0}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>error_rate</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1.555692</td>
+      <td>0.435306</td>
+      <td>0.229358</td>
+      <td>00:33</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>error_rate</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.484510</td>
+      <td>0.172394</td>
+      <td>0.064220</td>
+      <td>00:33</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.361524</td>
+      <td>0.090742</td>
+      <td>0.036697</td>
+      <td>00:34</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.287017</td>
+      <td>0.073770</td>
+      <td>0.027523</td>
+      <td>00:33</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.232049</td>
+      <td>0.072706</td>
+      <td>0.027523</td>
+      <td>00:33</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<p>training seems quite good as validation error rate has decreased to 2.8% i.e accuracy is 97.2%. we can see the confusion matrix and can analyse where exactly model is confusing between different bears. Top losses will show difference between prediction and actual image and also gives the confidence with which it is predicting.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>interp<span class="op">=</span>ClassificationInterpretation.from_learner(learn)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>interp.plot_confusion_matrix()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2021-08-04-Fastbook-chapter2_files/figure-html/cell-13-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>interp.plot_top_losses(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="2021-08-04-Fastbook-chapter2_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="lets-play-with-beard-now" class="level2">
+<h2 class="anchored" data-anchor-id="lets-play-with-beard-now">Lets Play With Beard Now</h2>
+<p>The above code snippet for image recognition is working at State of The Art accuracy and we can apply same understanding on the recognition of Modi Beard, wether is it from 2014 or 2021? For collecting image data we can use same duckduckgo search engine.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install gdown <span class="op">-</span>qq</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>gdown https:<span class="op">//</span>drive.google.com<span class="op">/</span>uc?<span class="bu">id</span><span class="op">=</span><span class="dv">1</span><span class="er">D3OmFPEKba4b24pfJYcoWRh9ITr</span><span class="op">-</span>gOMP <span class="op">-</span>O tmp.<span class="bu">zip</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>unzip <span class="op">-</span>q tmp.<span class="bu">zip</span> <span class="op">-</span>d .<span class="op">/</span>tmp </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>rm tmp.<span class="bu">zip</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Downloading...
+From: https://drive.google.com/uc?id=1D3OmFPEKba4b24pfJYcoWRh9ITr-gOMP
+To: /content/tmp.zip
+46.7MB [00:00, 128MB/s]</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>path2<span class="op">=</span>Path(<span class="st">'./tmp'</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>fns<span class="op">=</span>get_image_files(path2)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>fns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(#315) [Path('tmp/modi/2021/00000179.jpg'),Path('tmp/modi/2021/00000239.jpg'),Path('tmp/modi/2021/00000044.jpg'),Path('tmp/modi/2021/00000132.png'),Path('tmp/modi/2021/00000244.jpg'),Path('tmp/modi/2021/00000059.jpg'),Path('tmp/modi/2021/00000165.jpg'),Path('tmp/modi/2021/00000206.jpg'),Path('tmp/modi/2021/00000075.jpg'),Path('tmp/modi/2021/00000112.jpg')...]</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>failed2<span class="op">=</span>verify_images(fns)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>failed2.<span class="bu">map</span>(Path.unlink)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(#0) []</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>modi <span class="op">=</span> DataBlock(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    blocks<span class="op">=</span>(ImageBlock, CategoryBlock),</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    get_items<span class="op">=</span>get_image_files,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    splitter<span class="op">=</span>RandomSplitter(valid_pct<span class="op">=</span><span class="fl">0.2</span>, seed<span class="op">=</span><span class="dv">42</span>),</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    get_y<span class="op">=</span>parent_label,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    item_tfms<span class="op">=</span>RandomResizedCrop(<span class="dv">224</span>,<span class="fl">0.5</span>), batch_tfms<span class="op">=</span>aug_transforms())</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>dls2<span class="op">=</span>modi.dataloaders(path2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dls2.show_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="2021-08-04-Fastbook-chapter2_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>learn2<span class="op">=</span>cnn_learner(dls2,resnet18,metrics<span class="op">=</span>error_rate)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># learn2.lr_find()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>learn2.fine_tune(<span class="dv">10</span>,<span class="fl">0.0017</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>error_rate</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1.136465</td>
+      <td>0.812668</td>
+      <td>0.412698</td>
+      <td>00:07</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>error_rate</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.919497</td>
+      <td>0.840486</td>
+      <td>0.317460</td>
+      <td>00:08</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.816630</td>
+      <td>0.719514</td>
+      <td>0.285714</td>
+      <td>00:08</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.730438</td>
+      <td>0.461705</td>
+      <td>0.190476</td>
+      <td>00:08</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.606138</td>
+      <td>0.337663</td>
+      <td>0.126984</td>
+      <td>00:08</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.536673</td>
+      <td>0.297072</td>
+      <td>0.126984</td>
+      <td>00:08</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>0.464356</td>
+      <td>0.289846</td>
+      <td>0.126984</td>
+      <td>00:08</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>0.421824</td>
+      <td>0.260043</td>
+      <td>0.111111</td>
+      <td>00:08</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>0.381456</td>
+      <td>0.214176</td>
+      <td>0.079365</td>
+      <td>00:08</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>0.364465</td>
+      <td>0.201804</td>
+      <td>0.063492</td>
+      <td>00:07</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>0.340084</td>
+      <td>0.192317</td>
+      <td>0.063492</td>
+      <td>00:08</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<p>As you can see we could achieve nearly 93% accuracy, but this further can be improved by investigating plot losses function of fastai.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>interp<span class="op">=</span>ClassificationInterpretation.from_learner(learn2)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>interp.plot_confusion_matrix()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2021-08-04-Fastbook-chapter2_files/figure-html/cell-22-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>interp.plot_top_losses(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="2021-08-04-Fastbook-chapter2_files/figure-html/cell-23-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>you can very well see that some of the images were no where related to modi, but these are the prime reasons for decreasing efficiency in prediction. Accuracy further can be increased by removing all that data from the files. Now lets build an app to recognise a beard modi from 2014 or 2021.</p>
+</section>
+<section id="building-app" class="level2">
+<h2 class="anchored" data-anchor-id="building-app">Building app</h2>
+<p>we can build and deploy an application on the go and anybody can test the app by uploading an image of modi from their phones or internet, and app will predict wethere the image is from 2014 or 2021.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>gdown https:<span class="op">//</span>drive.google.com<span class="op">/</span>uc?<span class="bu">id</span><span class="op">=</span><span class="dv">1</span><span class="er">cu7wEQP99Y5F_0LJ8BtuC1T0uzBLH_kt</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>learn_inf<span class="op">=</span>load_learner(<span class="st">'export.pkl'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Downloading...
+From: https://drive.google.com/uc?id=1cu7wEQP99Y5F_0LJ8BtuC1T0uzBLH_kt
+To: /content/export.pkl
+47.0MB [00:00, 129MB/s] </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>learn_inf.dls.vocab</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>['2014', '2021']</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>btn_upload <span class="op">=</span> widgets.FileUpload()</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>btn_upload</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>img<span class="op">=</span>PILImage.create(btn_upload.data[<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>out_pl <span class="op">=</span> widgets.Output()</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>out_pl.clear_output()</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> out_pl: display(img.to_thumb(<span class="dv">128</span>,<span class="dv">128</span>))</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>out_pl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>pred,pred_idx,probs <span class="op">=</span> learn_inf.predict(img)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>lbl_pred <span class="op">=</span> widgets.Label()</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>lbl_pred.value <span class="op">=</span> <span class="ss">f'Prediction: </span><span class="sc">{</span>pred<span class="sc">}</span><span class="ss">; Probability: </span><span class="sc">{</span>probs[pred_idx]<span class="sc">:.04f}</span><span class="ss">'</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>lbl_pred</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"01d0fcab3a9a4f6a8eb5565b079db8f0","version_major":2,"version_minor":0}
+</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>btn_run <span class="op">=</span> widgets.Button(description<span class="op">=</span><span class="st">'Classify'</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>btn_run</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> on_click_classify(change):</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    img <span class="op">=</span> PILImage.create(btn_upload.data[<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    out_pl.clear_output()</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> out_pl: display(img.to_thumb(<span class="dv">128</span>,<span class="dv">128</span>))</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    pred,pred_idx,probs <span class="op">=</span> learn_inf.predict(img)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    lbl_pred.value <span class="op">=</span> <span class="ss">f'Prediction: </span><span class="sc">{</span>pred<span class="sc">}</span><span class="ss">; Probability: </span><span class="sc">{</span>probs[pred_idx]<span class="sc">:.04f}</span><span class="ss">'</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>btn_run.on_click(on_click_classify)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>btn_upload <span class="op">=</span> widgets.FileUpload()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>VBox([widgets.Label(<span class="st">'Select your bear!'</span>), </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>      btn_upload, btn_run, out_pl, lbl_pred])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script type="application/vnd.jupyter.widget-state+json">
+{"01d0fcab3a9a4f6a8eb5565b079db8f0":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"LabelModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"LabelModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"LabelView","description":"","description_tooltip":null,"layout":"IPY_MODEL_ffb9be5850814e0dbe4a82b939a6dc31","placeholder":"​","style":"IPY_MODEL_c818e59d70cf431995d3600a08e41455","value":"Prediction: 2021; Probability: 0.9998"}},"08aaef8fd33b444e91a2460a7a42da9f":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"FloatProgressModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"FloatProgressModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"ProgressView","bar_style":"success","description":"","description_tooltip":null,"layout":"IPY_MODEL_14daaa54f685455e8a542d4f0db2c75f","max":46830571,"min":0,"orientation":"horizontal","style":"IPY_MODEL_ab651e14bb5a4e1fb25600cb4341bf73","value":46830571}},"1143ec9ad8094c0c89a1e156cf38f40e":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"LabelModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"LabelModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"LabelView","description":"","description_tooltip":null,"layout":"IPY_MODEL_bd0ce017aab54880b94db6a49970f7bb","placeholder":"​","style":"IPY_MODEL_fa505f126ccb4a04bbe915c6788205ff","value":"Select your bear!"}},"14daaa54f685455e8a542d4f0db2c75f":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"382ec3024df044e59dcdd4c0561bf6fd":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"FileUploadModel","state":{"_counter":1,"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"FileUploadModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"FileUploadView","accept":"","button_style":"","data":[null],"description":"Upload","description_tooltip":null,"disabled":false,"error":"","icon":"upload","layout":"IPY_MODEL_d3ea6c20a854408c86575a8308604037","metadata":[{"lastModified":1630129846856,"name":"00000007.png","size":61200,"type":"image/png"}],"multiple":false,"style":"IPY_MODEL_e248da1698b74c1d8d4d9517c9262d3f"}},"398ec77141cc4393ac9ff1934bb398e4":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"3e3bc1af4d0247d192db45d994b75f52":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"4a9b796196f143a6a4250203ad320868":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"VBoxModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"VBoxModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"VBoxView","box_style":"","children":["IPY_MODEL_1143ec9ad8094c0c89a1e156cf38f40e","IPY_MODEL_382ec3024df044e59dcdd4c0561bf6fd","IPY_MODEL_f9fde4e7a1ef4665a0d21dd480a365d4","IPY_MODEL_d731814bc0334b5b9293e2d0d701bc20","IPY_MODEL_01d0fcab3a9a4f6a8eb5565b079db8f0"],"layout":"IPY_MODEL_3e3bc1af4d0247d192db45d994b75f52"}},"4d1c55861e23403ebcfcabad251bcecf":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"6066a65c0cac499b9450686809303347":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"67815b890e114e5db0338263bb927b19":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"ButtonStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"ButtonStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","button_color":null,"font_weight":""}},"868bef8bcc5b4b2bb2dd7e78badbd876":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"DescriptionStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"DescriptionStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","description_width":""}},"8fd9c12749364dcca1ef6075b3cb6b67":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HBoxModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HBoxModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HBoxView","box_style":"","children":["IPY_MODEL_eb369b16273949cca9e5f257b62dbcac","IPY_MODEL_08aaef8fd33b444e91a2460a7a42da9f","IPY_MODEL_c35eb3c8f82d45e2898b84731fbc3616"],"layout":"IPY_MODEL_398ec77141cc4393ac9ff1934bb398e4"}},"927f85510fa541eebf3e7ddc7df36640":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"DescriptionStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"DescriptionStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","description_width":""}},"ab651e14bb5a4e1fb25600cb4341bf73":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"ProgressStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"ProgressStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","bar_color":null,"description_width":""}},"bd0ce017aab54880b94db6a49970f7bb":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"c35eb3c8f82d45e2898b84731fbc3616":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HTMLModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HTMLModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HTMLView","description":"","description_tooltip":null,"layout":"IPY_MODEL_6066a65c0cac499b9450686809303347","placeholder":"​","style":"IPY_MODEL_927f85510fa541eebf3e7ddc7df36640","value":" 44.7M/44.7M [00:00&lt;00:00, 79.0MB/s]"}},"c818e59d70cf431995d3600a08e41455":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"DescriptionStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"DescriptionStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","description_width":""}},"d3ea6c20a854408c86575a8308604037":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"d731814bc0334b5b9293e2d0d701bc20":{"model_module":"@jupyter-widgets/output","model_module_version":"1.0.0","model_name":"OutputModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/output","_model_module_version":"1.0.0","_model_name":"OutputModel","_view_count":null,"_view_module":"@jupyter-widgets/output","_view_module_version":"1.0.0","_view_name":"OutputView","layout":"IPY_MODEL_4d1c55861e23403ebcfcabad251bcecf","msg_id":"","outputs":[{"data":{"image/png":"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\n","text/plain":["<PIL.Image.Image image mode=RGB size=128x72 at 0x7FD39B92B690>"]},"metadata":{},"output_type":"display_data"}]}},"df3f6e486b4f465599d6c8e856491c83":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"e248da1698b74c1d8d4d9517c9262d3f":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"ButtonStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"ButtonStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","button_color":null,"font_weight":""}},"e4514ef35534487493449821ed746ada":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"eb369b16273949cca9e5f257b62dbcac":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HTMLModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HTMLModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HTMLView","description":"","description_tooltip":null,"layout":"IPY_MODEL_df3f6e486b4f465599d6c8e856491c83","placeholder":"​","style":"IPY_MODEL_868bef8bcc5b4b2bb2dd7e78badbd876","value":"100%"}},"f9fde4e7a1ef4665a0d21dd480a365d4":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"ButtonModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"ButtonModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"ButtonView","button_style":"","description":"Classify","disabled":false,"icon":"","layout":"IPY_MODEL_e4514ef35534487493449821ed746ada","style":"IPY_MODEL_67815b890e114e5db0338263bb927b19","tooltip":""}},"fa505f126ccb4a04bbe915c6788205ff":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"DescriptionStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"DescriptionStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","description_width":""}},"ffb9be5850814e0dbe4a82b939a6dc31":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}}}
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

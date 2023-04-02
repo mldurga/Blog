@@ -1,5 +1,5 @@
 # Blog
-Personal Blog
+
 My journey into the technology world began quite late in my life. As a mechanical engineer, I never imagined that I would venture into a domain that was not mine. However, the allure of coding, cloud computing, and artificial intelligence eventually beckoned me towards this industry. Initially, I faced resistance and inadequacy because of my non-technical background, but I was determined to make a mark in this fast-evolving technological world.
 
 
